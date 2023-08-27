@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word Frequency Counter</title>
+  </head>
+
+  <body>
+    <h2>Word Frequency Counter</h2>
+    <textarea id="inputText" rows="10" cols="50"></textarea><br /><br />
+    <button onclick="countWords()">Count Words</button>
+    <h3>Word Count:</h3>
+    <div id="output"></div>
+
+    <script>
+      function countWords() {
+        var inputText = document.getElementById('inputText').value
+        var words = inputText.split(/\s+/).map(function (word) {
+          return word.toLowerCase().replace(/[^a-zA-Z]/g, '') // remove non-letter characters
+        })
+
+        var wordCount = {}
+        for (var i = 0; i < words.length; i++) {
+          var word = words[i]
+          if (word) {
+            // ignore empty strings
+            wordCount[word] = wordCount[word] ? wordCount[word] + 1 : 1
+          }
+        }
+
+        var wordArray = []
+        for (var word in wordCount) {
+          wordArray.push({ word: word, count: wordCount[word] })
+        }
+
+        wordArray.sort(function (a, b) {
+          return b.count - a.count
+        })
+
+        var output = document.getElementById('output')
+        output.innerHTML = ''
+        for (var i = 0; i < wordArray.length; i++) {
+          output.innerHTML +=
+            wordArray[i].word + ': ' + wordArray[i].count + '<br>'
+        }
+      }
+    </script>
+  </body>
+</html>
